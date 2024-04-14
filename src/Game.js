@@ -33,7 +33,7 @@ const Game = () => {
   const left_points = makePoints(true);
   const right_points = makePoints(false);
   const updateScore = () => {
-    const increment = Math.abs(verticalSpeed * -1 + caveData.length) * 0.1;
+    const increment = (verticalSpeed * -1 + caveData.length) * 0.1;
     if (
       dronePosition.y % 10 === -1 &&
       dronePosition.y &&
