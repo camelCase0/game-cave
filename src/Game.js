@@ -21,7 +21,6 @@ const Game = () => {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState("none");
   const [gameWon, setGameWon] = useState(false);
-
   const makePoints = (left) => {
     const cave = caveData;
     let points = cave.map((item, index) => {
@@ -33,7 +32,17 @@ const Game = () => {
   };
   const left_points = makePoints(true);
   const right_points = makePoints(false);
-
+  const updateScore = () => {
+    const increment = Math.abs(verticalSpeed * -1 + caveData.length) * 0.1;
+    if (
+      dronePosition.y % 10 === -1 &&
+      dronePosition.y &&
+      gameOver === "none" &&
+      !gameWon
+    ) {
+      setScore((prevScore) => prevScore + increment);
+    }
+  };
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (gameOver == "none") {
@@ -47,9 +56,11 @@ const Game = () => {
           case "ArrowUp":
             if (verticalSpeed + 1 > 0) setVerticalSpeed(-1);
             else setVerticalSpeed((prevSpeed) => prevSpeed + 1);
+
             break;
           case "ArrowDown":
             setVerticalSpeed((prevSpeed) => prevSpeed - 1);
+
             break;
           default:
             break;
@@ -135,11 +146,12 @@ const Game = () => {
       setGameOver("Side");
       setVerticalSpeed(0);
       setHorizontalSpeed(0);
-    } else if (dronePosition.y < left_points.length * -10 - 20) {
+    } else if (dronePosition.y < caData.length * -10 - 20) {
       setGameWon(true);
       setVerticalSpeed(0);
       setHorizontalSpeed(0);
     }
+    updateScore();
   }, [dronePosition]);
 
   useEffect(() => {
@@ -182,20 +194,6 @@ const Game = () => {
     return inside;
   };
 
-  // Calculate score
-  useEffect(() => {
-    if (
-      dronePosition.y % 10 === 0 &&
-      dronePosition.y &&
-      gameOver === "none" &&
-      gameWon
-    ) {
-      const increment = (verticalSpeed * -1 + caveData.length) * 0.1;
-      setScore((prevScore) => prevScore + increment);
-    }
-  }, [dronePosition, caveData]);
-
-  // Handle restart
   const restartGame = () => {
     setGameOver("none");
     setGameWon(false);
