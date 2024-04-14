@@ -72,7 +72,6 @@ const Game = () => {
     // };
   }, []);
 
-  // Update drone position based on speed
   useEffect(() => {
     const interval = setInterval(() => {
       if (gameOver == "none")
@@ -86,7 +85,6 @@ const Game = () => {
     return () => clearInterval(interval);
   }, [horizontalSpeed, verticalSpeed]);
 
-  // Check for collisions
   useEffect(() => {
     const pointTocheck = [
       ...left_points.filter(
